@@ -19,7 +19,7 @@ def create_traj_figure_name(algorithm_name):
 
 def plot_accuracy():
     # plot properties
-    linewidth = 1
+    linewidth = 1.5
 
     # yang2020
     traj = np.load(create_traj_file_name(YANG2020))
@@ -38,11 +38,12 @@ def plot_accuracy():
     plt.plot(np.linspace(0, len(traj) - 1, len(traj)), traj, 'r', linewidth=linewidth)
 
     # settings
+    plt.xlim((0, 1500))
     plt.ylim((0, 1.0))
     plt.grid(True)
     plt.legend(['SI-PPSP', 'Braca2016', 'He2017', 'Ruan2019'])
     plt.xlabel('iterations $k$')
-    plt.ylabel('$\max_{i\in\mathrm{V}}\mid z_i(k) - ave[sum]\mid$')
+    plt.ylabel('$\max_{i\in\mathrm{V}}\mid y_i(k) - ave[sum]\mid$')
     plt.title(r'Error Trajectories')
     plt.savefig(r'../figure/accuracy.png')
 

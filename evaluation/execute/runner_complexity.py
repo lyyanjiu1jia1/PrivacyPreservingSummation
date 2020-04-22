@@ -14,7 +14,7 @@ BRACA2016 = 'braca2016'
 HE2017 = 'he2017'
 RUAN2019 = 'ruan2019'
 
-repeat = 100
+repeat = 1
 n = 100
 k_max = 500
 init_mean = 1
@@ -43,7 +43,8 @@ def run_yang2020():
                         new_node_state=universal_new_node_state,
                         error_type=error_type,
                         save_data=False)
-    yang2020.run()
+    time_cost = yang2020.run()
+    return time_cost
 
 
 def run_braca2016():
@@ -54,7 +55,8 @@ def run_braca2016():
                           new_node_state=universal_new_node_state,
                           error_type=error_type,
                           save_data=False)
-    braca2016.run()
+    time_cost = braca2016.run()
+    return time_cost
 
 
 def run_he2017():
@@ -66,7 +68,8 @@ def run_he2017():
                     new_node_state=universal_new_node_state,
                     error_type=error_type,
                     save_data=False)
-    he2017.run()
+    time_cost = he2017.run()
+    return time_cost
 
 
 def run_ruan2019():
@@ -79,16 +82,16 @@ def run_ruan2019():
                         key_size=key_size,
                         a_scale=a_scale,
                         save_data=False)
-    ruan2019.run()
+    time_cost = ruan2019.run()
+    return time_cost
 
 
 def save_time(func, alg_name):
     time_consumption = []
     for i in range(repeat):
         print("{}-th repeat".format(i))
-        beg_time = time.time()
-        func()
-        time_consumption.append(time.time() - beg_time)
+        time_cost = func()
+        time_consumption.append(time_cost)
 
     file_name = r'../data/' + alg_name + r'-compl.npy'
     np.save(file_name, time_consumption)

@@ -57,7 +57,9 @@ class PrivacyPreservingSummation(object):
             self._print_iteration()
             self._iterate()
             self._save_trajectory()
-        print(self.algorithm_name + " time used = {}".format(tm.time() - beg_time))
+
+        time_cost = tm.time() - beg_time
+        print(self.algorithm_name + " time used = {}".format(time_cost))
 
         if self.error_type == 'max':
             self._parse_trajectory_max()
@@ -68,6 +70,8 @@ class PrivacyPreservingSummation(object):
 
         if self.save_data:
             self._save_file()
+        else:
+            return time_cost
         print("final error = {}".format(self.trajectory[-1]))
 
     def _save_file(self):
@@ -173,6 +177,5 @@ class PrivacyPreservingSummation(object):
         return (i - 1) % self.n
 
     def _print_iteration(self):
-        return
         if self.k_max <= 100 or self.k % 100 == 0:
             print("iteration k = {}".format(self.k))
