@@ -63,7 +63,7 @@ class Yang2020(PrivacyPreservingSummation):
         self.B = np.subtract(np.identity(self.n), self.A)
 
     def _std_dev(self):
-        std_dev = self.eta / (self.k + 1)
+        std_dev = self.eta / (self.k % self.k_max + 1)
         return std_dev
 
     def _node_leave(self):
@@ -80,3 +80,58 @@ class Yang2020(PrivacyPreservingSummation):
         self.n -= 1
         self._gen_A()
         self._gen_B()
+
+    def run_effectiveness(self):
+        while self.k < self.k_max:
+            self._print_iteration()
+            self._iterate()
+            self._save_trajectory()
+
+        # node join
+        self._node_join()
+        while self.k < 2 * self.k_max:
+            self._print_iteration()
+            self._iterate()
+            self._save_trajectory()
+
+        # node leave
+        self._node_leave()
+        self._save_trajectory()
+        while self.k < 3 * self.k_max:
+            self._print_iteration()
+            self._iterate()
+            self._save_trajectory()
+
+        self._parse_trajectory_effectiveness()
+
+        file_name = r'../data/' + self.algorithm_name + r'-effect.npy'
+        np.save(file_name, self.trajectory)
+        print("final error = {}".format(self.trajectory[-1]))
+
+    def _parse_trajectory_effectiveness(self):
+        output_traj = []
+        for k in range(1, len(self.trajectory)):
+            phase, n = self._parse_phase(k)
+            try:
+                cur_traj = sum(self.trajectory[max(k // self.k_max * self.k_max + 1, k - n):k])
+            except:
+                cur_traj = output_traj[-1]
+            output_traj.append(cur_traj)
+        output_traj.pop()
+
+        # further parse for plotting, each row is the trajectory of a node
+        self.trajectory = []
+        for i in range(self.n):
+            node_traj = []
+            for state in output_traj:
+                if type(state) is not np.ndarray:
+                    continue
+                node_traj.append(state[i, 0])
+            self.trajectory.append(np.array(node_traj))
+        pass
+
+    def get_trajectory(self):
+        return self.trajectory
+
+    def get_average(self):
+        return self.average

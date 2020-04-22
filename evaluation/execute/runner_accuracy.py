@@ -8,8 +8,8 @@ n = 100
 k_max = 500
 init_mean = 1
 init_std_dev = 1
-eta = 1
-sigma = 1
+eta = 3
+sigma = 3
 varrho = 0.9
 epsilon = 0.005
 key_size = 2048
@@ -18,7 +18,7 @@ universal_init_node_states = PrivacyPreservingSummation.init_node_states(dim=n,
                                                                          mean=init_mean,
                                                                          scale=init_std_dev)
 universal_new_node_state = PrivacyPreservingSummation.init_node_states(dim=1,
-                                                                       mean=init_mean * 3,
+                                                                       mean=init_mean * 100,
                                                                        scale=init_std_dev)
 
 error_type = 'max'

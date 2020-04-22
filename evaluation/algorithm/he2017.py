@@ -15,7 +15,7 @@ class He2017(PrivacyPreservingSummation):
         new_v = self.gen_uniform_random_vector(dim=self.n,
                                                low=-np.sqrt(3) * self.sigma,
                                                high=np.sqrt(3) * self.sigma)
-        theta = self.varrho ** (self.k + 1) * new_v - self.varrho ** self.k * self.v
+        theta = self.varrho ** (self.k % self.k_max + 1) * new_v - self.varrho ** (self.k % self.k_max) * self.v
 
         self.node_states = self.A.dot(self.node_states + theta)
 
