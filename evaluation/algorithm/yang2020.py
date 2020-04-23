@@ -20,11 +20,15 @@ class Yang2020(PrivacyPreservingSummation):
         output_traj = []
         for k in range(len(self.trajectory)):
             phase, n = self._parse_phase(k)
-            try:
-                cur_traj = sum(self.trajectory[max(k // self.k_max * self.k_max + 1, k - n):k])
-                cur_traj = np.max(np.abs(cur_traj / n - self.average[phase]))
-            except:
+            upper_bound = (k // self.k_max + 1) * self.k_max
+            if k + n > upper_bound:
                 cur_traj = output_traj[-1]
+            else:
+                try:
+                    cur_traj = sum(self.trajectory[k:k + n])
+                    cur_traj = np.max(np.abs(cur_traj / n - self.average[phase]))
+                except:
+                    cur_traj = output_traj[-1]
             output_traj.append(cur_traj)
         output_traj.pop()
         self.trajectory = np.array(output_traj)
@@ -33,12 +37,17 @@ class Yang2020(PrivacyPreservingSummation):
         output_traj = []
         for k in range(len(self.trajectory)):
             phase, n = self._parse_phase(k)
-            try:
-                cur_traj = sum(self.trajectory[max(k // self.k_max * self.k_max + 1, k - n):k])
-                cur_traj = np.linalg.norm(cur_traj / n - self.average[phase]) ** 2
-            except:
+            upper_bound = (k // self.k_max + 1) * self.k_max
+            if k + n > upper_bound:
                 cur_traj = output_traj[-1]
+            else:
+                try:
+                    cur_traj = sum(self.trajectory[k:k + n])
+                    cur_traj = np.linalg.norm(cur_traj / n - self.average[phase]) ** 2
+                except:
+                    cur_traj = output_traj[-1]
             output_traj.append(cur_traj)
+        output_traj.pop()
         self.trajectory = np.array(output_traj)
 
     def _iterate(self):
@@ -112,10 +121,14 @@ class Yang2020(PrivacyPreservingSummation):
         output_traj = []
         for k in range(1, len(self.trajectory)):
             phase, n = self._parse_phase(k)
-            try:
-                cur_traj = sum(self.trajectory[max(k // self.k_max * self.k_max + 1, k - n):k])
-            except:
+            upper_bound = (k // self.k_max + 1) * self.k_max
+            if k + n > upper_bound:
                 cur_traj = output_traj[-1]
+            else:
+                try:
+                    cur_traj = sum(self.trajectory[k:k + n])
+                except:
+                    cur_traj = output_traj[-1]
             output_traj.append(cur_traj)
         output_traj.pop()
 

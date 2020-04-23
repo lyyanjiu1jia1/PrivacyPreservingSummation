@@ -64,10 +64,12 @@ def plot_effectiveness(traj, average):
     # plot benchmark
     plt.plot(create_lin_space(0, len(traj[0])), [average[INIT] * n] * len(traj[0]), 'c--', linewidth=linewidth * 10)
     plt.plot(create_lin_space(0, len(traj[0])), [average[JOIN] * n] * len(traj[0]), 'm--', linewidth=linewidth * 10)
+    plt.text(0.71 * len(traj[0]), average[INIT] * n * 0.8, r'average before join', fontsize=10)
+    plt.text(0.733 * len(traj[0]), average[JOIN] * n * 0.9, r'average after join', fontsize=10)
 
     # settings
     plt.xlim((0, 3 * k_max))
-    plt.ylim((-200, 330))
+    plt.ylim((-50, 330))
     plt.grid(True)
     plt.xlabel('iteration $k$')
     plt.ylabel('$y_i(k)$')

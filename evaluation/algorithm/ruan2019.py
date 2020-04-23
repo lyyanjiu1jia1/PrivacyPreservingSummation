@@ -3,8 +3,8 @@ import copy
 import numpy as np
 
 from evaluation.algorithm.base_algorithm import PrivacyPreservingSummation
-from phe import generate_paillier_keypair
-# from phe.dummy import generate_paillier_keypair
+# from phe import generate_paillier_keypair
+from phe.dummy import generate_paillier_keypair
 
 
 class Ruan2019(PrivacyPreservingSummation):

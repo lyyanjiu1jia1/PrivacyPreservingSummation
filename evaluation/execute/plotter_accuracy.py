@@ -1,3 +1,5 @@
+import copy
+
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -37,62 +39,96 @@ def split_traj(traj):
 def plot_accuracy():
     # plot properties
     linewidth = 1.5
-    fig, subfigs = plt.subplots(1, 3)
+    fig, subfigs = plt.subplots(2, 3)
 
     # yang2020
     traj = np.load(create_traj_file_name(YANG2020))
     traj1, traj2, traj3 = split_traj(traj)
-    subfigs[0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'b', linewidth=linewidth)
-    subfigs[1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'b', linewidth=linewidth)
-    subfigs[2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)), traj3,
-                    'b', linewidth=linewidth)
+    subfigs[0, 0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'b', linewidth=linewidth)
+    subfigs[0, 1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'b', linewidth=linewidth)
+    subfigs[0, 2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)), traj3,
+                       'b', linewidth=linewidth)
+    subfigs[1, 0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'b', linewidth=linewidth)
+    subfigs[1, 1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'b',
+                       linewidth=linewidth)
+    subfigs[1, 2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)),
+                       traj3,
+                       'b', linewidth=linewidth)
 
     # braca2016
     traj = np.load(create_traj_file_name(BRACA2016))
     traj1, traj2, traj3 = split_traj(traj)
-    subfigs[0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'g', linewidth=linewidth)
-    subfigs[1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'g', linewidth=linewidth)
-    subfigs[2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)), traj3,
-                    'g', linewidth=linewidth)
+    subfigs[0, 0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'g', linewidth=linewidth)
+    subfigs[0, 1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'g', linewidth=linewidth)
+    subfigs[0, 2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)), traj3,
+                       'g', linewidth=linewidth)
+    subfigs[1, 0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'g', linewidth=linewidth)
+    subfigs[1, 1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'g',
+                       linewidth=linewidth)
+    subfigs[1, 2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)),
+                       traj3,
+                       'g', linewidth=linewidth)
 
     # he2017
     traj = np.load(create_traj_file_name(HE2017))
     traj1, traj2, traj3 = split_traj(traj)
-    subfigs[0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'y', linewidth=linewidth)
-    subfigs[1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'y', linewidth=linewidth)
-    subfigs[2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)), traj3,
-                    'y', linewidth=linewidth)
+    subfigs[0, 0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'y', linewidth=linewidth)
+    subfigs[0, 1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'y', linewidth=linewidth)
+    subfigs[0, 2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)), traj3,
+                       'y', linewidth=linewidth)
+    subfigs[1, 0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'y', linewidth=linewidth)
+    subfigs[1, 1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'y',
+                       linewidth=linewidth)
+    subfigs[1, 2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)),
+                       traj3,
+                       'y', linewidth=linewidth)
 
     # ruan2019
     traj = np.load(create_traj_file_name(RUAN2019))
     traj1, traj2, traj3 = split_traj(traj)
-    subfigs[0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'r', linewidth=linewidth)
-    subfigs[1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'r', linewidth=linewidth)
-    subfigs[2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)), traj3,
-                    'r', linewidth=linewidth)
+    subfigs[0, 0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'r', linewidth=linewidth)
+    subfigs[0, 1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'r', linewidth=linewidth)
+    subfigs[0, 2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)), traj3,
+                       'r', linewidth=linewidth)
+    subfigs[1, 0].plot(np.linspace(0, len(traj1) - 1, len(traj1)), traj1, 'r', linewidth=linewidth)
+    subfigs[1, 1].plot(np.linspace(len(traj1), len(traj2) + len(traj1) - 1, len(traj2)), traj2, 'r',
+                       linewidth=linewidth)
+    subfigs[1, 2].plot(np.linspace(len(traj2) + len(traj1), len(traj2) + len(traj1) + len(traj3) - 1, len(traj3)),
+                       traj3,
+                       'r', linewidth=linewidth)
 
     # settings
-    subfigs[0].set_title('initial phase')
-    subfigs[1].set_title('node join')
-    subfigs[2].set_title('node leave')
+    subfigs[0, 0].set_title('initial phase')
+    subfigs[0, 1].set_title('node join')
+    subfigs[0, 2].set_title('node leave')
     fig.suptitle('Error Trajectories')
 
-    subfigs[2].legend(['SI-PPSP', 'Braca2016', 'He2017', 'Ruan2019'])
+    subfigs[0, 2].legend(['SI-PPSP', 'Braca2016', 'He2017', 'Ruan2019'])
 
-    subfigs[0].grid(True)
-    subfigs[1].grid(True)
-    subfigs[2].grid(True)
+    subfigs[0, 0].grid(True)
+    subfigs[0, 1].grid(True)
+    subfigs[0, 2].grid(True)
+    subfigs[1, 0].grid(True)
+    subfigs[1, 1].grid(True)
+    subfigs[1, 2].grid(True)
 
-    subfigs[0].set_xlim((0, 500))
-    subfigs[1].set_xlim((500, 1000))
-    subfigs[2].set_xlim((1000, 1500))
+    subfigs[0, 0].set_xlim((0, 500))
+    subfigs[0, 1].set_xlim((500, 999))
+    subfigs[0, 2].set_xlim((1000, 1500))
+    subfigs[1, 0].set_xlim((0, 500))
+    subfigs[1, 1].set_xlim((500, 999))
+    subfigs[1, 2].set_xlim((1000, 1500))
 
-    subfigs[0].set_ylim((0, 1.5))
-    subfigs[1].set_ylim((0, 50))
-    subfigs[2].set_ylim((0, 30))
+    subfigs[0, 0].set_ylim((0, 5))
+    subfigs[0, 1].set_ylim((0, 35))
+    subfigs[0, 2].set_ylim((0, 35))
+    subfigs[1, 0].set_ylim((0, 0.6))
+    subfigs[1, 1].set_ylim((0, 0.6))
+    subfigs[1, 2].set_ylim((0, 0.6))
 
-    subfigs[1].set_xlabel('iteration $k$')
-    subfigs[0].set_ylabel('$\max_{i\in\mathrm{V}}\mid z_i(k) - ave[sum]\mid$')
+    subfigs[1, 1].set_xlabel('iteration $k$')
+    subfigs[0, 0].set_ylabel('$\max_{i\in\mathrm{V}}\mid z_i(k) - ave[sum]\mid$')
+    subfigs[1, 0].set_ylabel('$\max_{i\in\mathrm{V}}\mid z_i(k) - ave[sum]\mid$')
 
     fig.savefig(r'../figure/accuracy.png')
 
